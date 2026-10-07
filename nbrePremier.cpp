@@ -15,6 +15,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -30,6 +31,7 @@ int main() {
     do {
         cout << "entrer une valeur [" << min_limit << "-" << max_limit << "] : ";
         cin >> user_value;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }while (/*!cin || */(user_value < min_limit || user_value > max_limit));
 
     cout << "Voici la liste des nombres premiers" << endl;
