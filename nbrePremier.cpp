@@ -14,19 +14,22 @@
 */
 
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <limits>
+#include <cmath>
 
 using namespace std;
 
 int main() {
 
+    const int n_col = 5;
     const int min_limit = 2;
     const int max_limit = 1000;
     int user_value;
     char user_restart;
 
-    cout << "Ce programme ..." << endl;
+    cout << "Ce programme ..." << endl << endl;
 
     // Loop to restart the program
     do {
@@ -38,39 +41,48 @@ int main() {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }while (/*!cin || */(user_value < min_limit || user_value > max_limit));
 
-        cout << "Voici la liste des nombres premiers" << endl;
+        cout << endl << "Voici la liste des nombres premiers" << endl;
+
+        int current_col = 0;
 
         // Iterate through all possible prime numbers until user value
         for (int i = min_limit; i <= user_value; i++) {
             bool isPrime = true;
+
+            // Max value to check if prime
+            const int maxValue = i >= 4 ? static_cast<int>(sqrt(i)) + 1 : 2;
+
             // Check if prime
             // for (int j = 2; j < i; j++) {
-            for (int j = 2;(j >= 4) ? j < i / 2 : j < i ; j++) {
+            for (int j = 2; j < maxValue ; j++) {
                 // Dividable by something else than 1 or itself
                 if (i % j == 0) {
                     isPrime = false;
-                    // cout << i << " is not prime." << endl;
                     break;
                 }
             }
             // Print if prime
             if (isPrime) {
-                cout << i << ", ";
+                cout << setw(10) << i;
+                current_col++;
+                if (current_col == n_col) {
+                    current_col = 0;
+                    cout << endl;
+                }
             }
         }
 
-        cout << endl;
+        cout << endl << endl;
 
-        // Loop should the program restart ?
+        // Loop : should the program restart ?
         do {
             cout << "Voulez-vous recommencer [O/N] : ";
             cin >> user_restart;
-        }while (user_restart != 'O' && user_restart != 'N');
+        } while (user_restart != 'O' && user_restart != 'N');
 
-    }while (user_restart == 'O');
+    } while (user_restart == 'O');
 
     cout << "Fin de programme" << endl;
-
 
     return EXIT_SUCCESS;
 }
